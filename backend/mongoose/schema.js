@@ -54,6 +54,10 @@ const certif_users = new Schema({
         type: String,
         index: {sparse: true},
     },
+    certificates: {
+        type: [mongoose.Types.ObjectId],
+        index: {sparse: true}
+    },
     active: {
         type: Boolean,
         required: false,
