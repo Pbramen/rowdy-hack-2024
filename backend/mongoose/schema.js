@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const coordinates = new Schema({
-    long: String,
-    lat: String
-})
-
 const certif_model = new Schema({
     name: {
         type: String,
@@ -13,6 +8,22 @@ const certif_model = new Schema({
         index: {
             unique: true
         }
+    }
+})
+
+const geoJson = new Schema({
+    type: {
+        type: String, 
+        enum: ['Point'],
+        default: 'Point',
+        required: true,
+        immuatble: true
+    },
+    coordinates: {
+        type: [Number], 
+        default: [0, 0],
+        required: true,
+        index: "2dsphere"
     }
 })
 
@@ -34,27 +45,27 @@ const certif_users = new Schema({
         type: String,
         required: true
     },
-    current_coordinates: coordinates,
+    coordinates: {
+        type: geoJson, 
+        required: false,
+        index: '2dsphere'
+    },
     current_state: {
         type: String,
         index: {sparse: true},
-    },
-    certifcates: {
-        type: [certif_model],
-        required: true
     },
     active: {
         type: Boolean,
         required: false,
         default: true
     }
-})
+}, {timestamps: true})
 
 events_model.index("");
 const Events = mongoose.model("Events", events_model);
 const Certs_user = mongoose.model("Cert_users", certif_users);
 const Certifs = mongoose.model("certif_model", certif_model)
-const Coordinates = mongoose.model("coordinates", coordinates);
+const GeoJson = mongoose.model("GeoJson", geoJson);
 module.exports = {
-    Events, Certs_user, Certifs, Coordinates
+    Events, Certs_user, Certifs, GeoJson
 }

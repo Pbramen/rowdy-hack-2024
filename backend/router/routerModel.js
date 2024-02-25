@@ -1,5 +1,5 @@
 const express = require("express");
-const { createNewCertificate, getClosestUser } = require("./routerController.js");
+const { createNewCertificate, getClosestUser,createNewUser } = require("./routerController.js");
 const router = express.Router();
 
 function err (req, res) {
@@ -8,9 +8,11 @@ function err (req, res) {
 // getAll
 router.get('/', err);
 // return users with certificates and their location!
-router.get('/getClosestUser/:id', getClosestUser);
+router.get('/getClosestUser/:long/:lat', getClosestUser);
 // record a new certificate
 router.post('/createNewCert', createNewCertificate);
+// create new user:
+router.post('/createUser', createNewUser);
 // update a certified user with new information.
 router.put('/updateUser/:id', err);
 
