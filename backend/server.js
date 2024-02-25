@@ -1,14 +1,12 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv").config();
-const mongoose = requrie("mongoose");
-
-console.log(process.env.URL);
+const mongoose = require("mongoose");
 
 mongoose.connect(process.env.URL)
     .then(() => {
-        app.listen(80, () => {
-            console.log("listening to port 4000...")
+        app.listen(process.env.PORT, () => {
+            console.log(`Listening on port ${process.env.PORT}`)
         })
     })
     .catch((error) => { 
