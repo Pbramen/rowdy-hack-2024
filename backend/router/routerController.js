@@ -49,6 +49,17 @@ async function createNewCertificate(req, res){
     }
 }
 
+async function grabAllUserCertificates(req, res) { 
+    const { id } = req.params;
+    try {
+        const query = await Certs_user.findById(id, "certificates");
+        const queryRest = await Certifs.find({_id: query.certificates})
+        res.status(200).json({queryRest});
+    } catch (e) {
+        res.status(403).json({"error": "forbidden access"});
+    }
+}
+
 async function createNewUser(req, res) {
     try {
         var json = req.body;
@@ -64,6 +75,7 @@ async function createNewUser(req, res) {
             type: 'Point',
             coordinates: [long, lat]
         });
+        
         const queryRes = await Certs_user.create({
             name: json.name,
             coordinates: geoJson,
@@ -117,5 +129,6 @@ module.exports = {
     getSingleEventDetail,
     createNewCertificate,
     getClosestUser, 
-    createNewUser, 
+    createNewUser,
+    grabAllUserCertificates
 }

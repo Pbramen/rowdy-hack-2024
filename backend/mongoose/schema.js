@@ -34,7 +34,6 @@ const events_model = new Schema({
     },
     certificates: {
         type: [mongoose.Types.ObjectId],
-        ref: 'certif_model',
         required: true
     }
 }, {timestamps: true});
@@ -56,7 +55,7 @@ const certif_users = new Schema({
     },
     certificates: {
         type: [mongoose.Types.ObjectId],
-        index: {sparse: true}
+        index: { sparse: true }
     },
     active: {
         type: Boolean,
