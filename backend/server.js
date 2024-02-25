@@ -2,6 +2,17 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
+const router = require("./router/routerModel.js");
+
+app.use(express.json());
+app.use('/', (req, res, next) => { 
+    //res.setHeader("Access-Control-Allow-Origin", "<placeholder url>");
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    res.setHeader("Access-Control-Allow-METHODS", "POST GET PUT");
+    console.log(req.method, req.url, req.body)
+    next();
+})
+
 
 mongoose.connect(process.env.URL)
     .then(() => {
@@ -14,6 +25,4 @@ mongoose.connect(process.env.URL)
         console.log("MongoDB connection failed", error)
     })
 
-app.get("/", (req, res) => { 
-    res.status(400).render("<h1>You shouldn't be here >:( </h1>");
-})
+app.use('/api/', router);
